@@ -728,10 +728,6 @@ Expect<uint32_t> WasmEdgeZlibGZOpen::body(const Runtime::CallingFrame &Frame,
   auto *Mode = MemInst->getPointer<const char *>(ModePtr);
 
   auto ZRes = gzopen(Path, Mode);
-  if (unlikely(ZRes == nullptr)) {
-    spdlog::error("[WasmEdge-Zlib] [WasmEdgeZlibGZOpen] Failed to open path: {}"sv, Path);
-    return Unexpect(ErrCode::Value::HostFuncError);
-  }
 
   const auto NewWasmGZFile = WasmGZFileStart + Env.GZFileMap.size();
   auto El =
@@ -750,10 +746,6 @@ Expect<uint32_t> WasmEdgeZlibGZDOpen::body(const Runtime::CallingFrame &Frame,
   auto *Mode = MemInst->getPointer<const char *>(ModePtr);
 
   auto ZRes = gzdopen(FD, Mode);
-  if (unlikely(ZRes == nullptr)) {
-    spdlog::error("[WasmEdge-Zlib] [WasmEdgeZlibGZDOpen] Failed to open file descriptor: {}"sv, FD);
-    return Unexpect(ErrCode::Value::HostFuncError);
-  }
 
   const auto NewWasmGZFile = WasmGZFileStart + Env.GZFileMap.size();
   auto El =
